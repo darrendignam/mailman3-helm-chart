@@ -20,7 +20,9 @@ fullnameOverride: ""
 
 core:
   image:
-    repository: maxking/mailman-core
+    repository: darrenopf/mailman-core
+  extraArgs: {}
+  extraEnv: []
   podAnnotations: {}
   podSecurityContext: {}
   # fsGroup: 2000
@@ -52,7 +54,9 @@ core:
 
 web:
   image:
-    repository: maxking/mailman-web
+    repository: darrenopf/mailman-web
+  extraArgs: {}
+  extraEnv: []
   podAnnotations: {}
   podSecurityContext: {}
   securityContext: {}
