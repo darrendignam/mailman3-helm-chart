@@ -47,10 +47,8 @@ spec:
               value: http://{{ include "mailman3.fullname" . }}-core.{{ .Release.Namespace }}.svc.{{ $clusterDomain }}:8001
             - name: POSTORIUS_TEMPLATE_BASE_URL
               value: http://{{ include "mailman3.fullname" . }}-web.{{ .Release.Namespace }}.svc.{{ $clusterDomain }}:80
-            {{- if .Values.ingress.enabled }}
             - name: SERVE_FROM_DOMAIN
               value: {{ .Values.hostname | quote }}
-            {{- end }}
             - name: DATABASE_URL
               value: sqlite://///opt/mailman-web-data/mailmanweb.db
             - name: DATABASE_TYPE
@@ -66,7 +64,10 @@ spec:
             - name: SMTP_HOST
               value: {{ include "mailman3.fullname" . }}-core.{{ .Release.Namespace }}.svc.{{ $clusterDomain }}
             {{- end }}
-          args:
+#             {{- if .Values.extraEnv }}
+# {{ toYaml .Values.web.extraEnv | indent 8 }}
+#             {{- end }}
+          args:          
             - uwsgi
             - --ini
             - /opt/mailman-web/uwsgi.ini
