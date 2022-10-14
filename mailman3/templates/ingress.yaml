@@ -28,6 +28,7 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: {{ include "mailman3.fullname" . }}-web
-          servicePort: 80
+          name: {{ include "mailman3.fullname" . }}-web
+          port: 
+            number: 8000
 {{- end }}
