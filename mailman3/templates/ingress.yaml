@@ -26,9 +26,11 @@ spec:
   - host: {{ .Values.hostname | quote }}
     http:
       paths:
-      - path: /
+      - pathType: Prefix
+        path: "/"
         backend:
-          name: {{ include "mailman3.fullname" . }}-web
-          port: 
-            number: 8000
+          service:
+            name: {{ include "mailman3.fullname" . }}-web
+            port: 
+              number: 8000
 {{- end }}
