@@ -43,16 +43,13 @@ spec:
               value: {{ .Values.hyperkittyApiKey }}
             - name: SECRET_KEY
               value: {{ .Values.djangoSecretKey }}
-
             - name: MAILMAN_REST_URL
               value: http://{{ include "mailman3.fullname" . }}-core.{{ .Release.Namespace }}.svc.{{ $clusterDomain }}:8001
-
             - name: POSTORIUS_TEMPLATE_BASE_URL
               value: http://{{ include "mailman3.fullname" . }}-web.{{ .Release.Namespace }}.svc.{{ $clusterDomain }}:80
-
             - name: SERVE_FROM_DOMAIN
               value: {{ .Values.hostname | quote }}
-
+              
             {{- if .Values.secretDatabaseConfig }}
             - name: DATABASE_URL
               valueFrom:
