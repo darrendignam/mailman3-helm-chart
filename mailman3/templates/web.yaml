@@ -49,11 +49,11 @@ spec:
               value: http://{{ include "mailman3.fullname" . }}-web.{{ .Release.Namespace }}.svc.{{ $clusterDomain }}:80
             - name: SERVE_FROM_DOMAIN
               value: {{ .Values.hostname | quote }}
-              
+
             {{- if .Values.secretDatabaseConfig }}
             - name: DATABASE_URL
               valueFrom:
-                secretRef:
+                secretKeyRef:
                   key: databaseUrl
                   name: {{ .Values.secretDatabaseConfig }}
             {{- else }}

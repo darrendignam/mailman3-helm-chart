@@ -52,13 +52,13 @@ spec:
             {{- if .Values.secretDatabaseConfig }}
             - name: DATABASE_CLASS
               valueFrom:
-                secretRef:
+                secretKeyRef:
                   key: databaseClass
                   name: {{ .Values.secretDatabaseConfig }}
 #              value: mailman.database.postgresql.PostgreSQLDatabase
             - name: DATABASE_URL
               valueFrom:
-                secretRef:
+                secretKeyRef:
                   key: databaseUrl
                   name: {{ .Values.secretDatabaseConfig }}
             {{- else }}
