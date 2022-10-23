@@ -43,16 +43,35 @@ spec:
               value: {{ .Values.hyperkittyApiKey }}
             - name: SECRET_KEY
               value: {{ .Values.djangoSecretKey }}
+
             - name: MAILMAN_REST_URL
               value: http://{{ include "mailman3.fullname" . }}-core.{{ .Release.Namespace }}.svc.{{ $clusterDomain }}:8001
+
             - name: POSTORIUS_TEMPLATE_BASE_URL
               value: http://{{ include "mailman3.fullname" . }}-web.{{ .Release.Namespace }}.svc.{{ $clusterDomain }}:80
+
             - name: SERVE_FROM_DOMAIN
               value: {{ .Values.hostname | quote }}
+
+            {{- if .Values.secretDatabaseConfig }}
+            - name: DATABASE_URL
+              valueFrom:
+                secretRef:
+                  key: databaseUrl
+                  name: {{ .Values.secretDatabaseConfig }}
+            {{- else }}
             - name: DATABASE_URL
               value: sqlite://///opt/mailman-web-data/mailmanweb.db
+            {{- end }}
+
+            {{- if .Values.databasetype }}
+            - name: DATABASE_TYPE
+              value: {{ .Values.databaseType }}
+            {{- else }}
             - name: DATABASE_TYPE
               value: sqlite
+            {{- end }}
+
             - name: MAILMAN_ADMIN_USER
               value: {{ .Values.admin.username }}
             - name: MAILMAN_ADMIN_EMAIL

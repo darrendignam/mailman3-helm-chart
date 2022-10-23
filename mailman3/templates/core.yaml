@@ -49,10 +49,26 @@ spec:
               value: postfix
             - name: SMTP_HOST
               value: {{ include "mailman3.fullname" . }}-core.{{ .Release.Namespace }}.svc.{{ $clusterDomain }}
+            {{- if .Values.secretDatabaseConfig }}
+            - name: DATABASE_CLASS
+              valueFrom:
+                secretRef:
+                  key: databaseClass
+                  name: {{ .Values.secretDatabaseConfig }}
+#              value: mailman.database.postgresql.PostgreSQLDatabase
+            - name: DATABASE_URL
+              valueFrom:
+                secretRef:
+                  key: databaseUrl
+                  name: {{ .Values.secretDatabaseConfig }}
+            {{- else }}
             - name: DATABASE_CLASS
               value: mailman.database.sqlite.SQLiteDatabase
             - name: DATABASE_URL
               value: "sqlite:////opt/mailman/var/data/mailman.db"
+            {{- end }}
+
+
 #             {{- if .Values.extraEnv }}
 # {{ toYaml .Values.core.extraEnv | indent 8 }}
 #             {{- end }}
