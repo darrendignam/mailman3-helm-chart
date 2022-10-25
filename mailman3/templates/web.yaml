@@ -80,6 +80,10 @@ spec:
             - name: SMTP_HOST
               value: {{ include "mailman3.fullname" . }}-core.{{ .Release.Namespace }}.svc.{{ $clusterDomain }}
             {{- end }}
+
+            - name: MAILMAN_HOSTNAME
+              value: {{ include "mailman3.fullname" . }}-core.{{ .Release.Namespace }}.svc.{{ $clusterDomain }}
+
 #             {{- if .Values.extraEnv }}
 # {{ toYaml .Values.web.extraEnv | indent 8 }}
 #             {{- end }}
